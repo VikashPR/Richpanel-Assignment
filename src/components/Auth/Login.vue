@@ -7,7 +7,6 @@
             <v-text-field height="20px" v-model="email" :rules="[rules.required, rules.email]" label="E-mail" single-line
                 outlined></v-text-field>
 
-
             <label for="name">Password</label>
             <v-text-field height="20px" v-model="password" :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
                 :rules="[rules.required, rules.min]" :type="show ? 'text' : 'password'" name="input-10-1" label="Password"

@@ -1,12 +1,15 @@
 <template>
   <div>
-    Home sweet home
+    <PlanSelection/>
   </div>
 </template>
 
 <script>
+import PlanSelection from '@/components/PlanSelection.vue'
 export default {
-
+  components: {
+    PlanSelection
+  }
 }
 </script>
 
