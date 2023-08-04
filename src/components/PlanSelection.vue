@@ -16,28 +16,21 @@
                             </div>
                         </th>
                         <th class="text-center">
-                            <div
-                            @click="selectedPlan = 'mobile'"
-                            :class="{'header-box-active': selectedPlan == 'mobile'}"
-                             class="header-box">Mobile</div>
+                            <div @click="mapPlanIndex('basic')" :class="{ 'header-box-active': selectedPlan == 'basic' }"
+                                class="header-box">Basic</div>
                         </th>
                         <th class="text-center">
-                            <div 
-                            @click="selectedPlan = 'basic'"
-                            :class="{'header-box-active': selectedPlan == 'basic'}"
-                            class="header-box">Basic</div>
+                            <div @click="mapPlanIndex('standard')"
+                                :class="{ 'header-box-active': selectedPlan == 'standard' }" class="header-box">Standard
+                            </div>
                         </th>
                         <th class="text-center">
-                            <div
-                            @click="selectedPlan = 'standard'"
-                            :class="{'header-box-active': selectedPlan == 'standard'}"
-                             class="header-box">Standard</div>
+                            <div @click="mapPlanIndex('premium')"
+                                :class="{ 'header-box-active': selectedPlan == 'premium' }" class="header-box">Premium</div>
                         </th>
                         <th class="text-center">
-                            <div
-                            @click="selectedPlan = 'premium'"
-                            :class="{'header-box-active': selectedPlan == 'premium'}"
-                             class="header-box">Premium</div>
+                            <div @click="mapPlanIndex('regular')"
+                                :class="{ 'header-box-active': selectedPlan == 'regular' }" class="header-box">Regular</div>
                         </th>
                     </tr>
                 </thead>
@@ -46,15 +39,17 @@
                         <td>
                             Yearly Price
                         </td>
-                        <td style="text-align:center" v-for="item in planItems" :key="item.name">
-                            {{ item.price }}
+                        <td style="text-align:center;" v-for="(item, index) in planItems" :key="item.name"
+                            :style="index === planIndex ? { color: '#26528C' } : {}">
+                            ₹ {{ item.price }}
                         </td>
                     </tr>
                     <tr>
                         <td>
                             Video quality
                         </td>
-                        <td style="text-align:center" v-for="item in planItems" :key="item.name">
+                        <td style="text-align:center;" v-for="(item, index) in planItems" :key="item.name"
+                            :style="index === planIndex ? { color: '#26528C' } : {}">
                             {{ item.videoQuality }}
                         </td>
                     </tr>
@@ -62,7 +57,8 @@
                         <td>
                             Resolution
                         </td>
-                        <td style="text-align:center" v-for="item in planItems" :key="item.name">
+                        <td style="text-align:center" v-for="(item, index) in planItems" :key="item.name"
+                            :style="index === planIndex ? { color: '#26528C' } : {}">
                             {{ item.resolution }}
                         </td>
                     </tr>
@@ -70,7 +66,8 @@
                         <td>
                             Number of active screens at one time
                         </td>
-                        <td style="text-align:center" v-for="item in planItems" :key="item.name">
+                        <td style="text-align:center" v-for="(item, index) in planItems" :key="item.name"
+                            :style="index === planIndex ? { color: '#26528C' } : {}">
                             {{ item.NoOfActiveScreens }}
                         </td>
                     </tr>
@@ -78,7 +75,8 @@
                         <td>
                             Devices you can use to watch
                         </td>
-                        <td style="text-align:center" v-for="item in planItems" :key="item.name">
+                        <td style="text-align:center" v-for="(item, index) in planItems" :key="item.name"
+                            :style="index === planIndex ? { color: '#26528C' } : {}">
                             <template v-for="device in item.devices">
                                 <div class="py-4" :key="device[0]">
                                     {{ device }}
@@ -106,6 +104,7 @@ export default {
             loading: false,
             planDuration: 'monthly',
             selectedPlan: null,
+            planIndex: null,
             yearly: [
                 {
                     name: 'Basic',
@@ -181,6 +180,7 @@ export default {
             return this.planDuration === 'monthly' ? this.monthly : this.yearly;
         }
     },
+
     watch: {
         loader() {
             const l = this.loader
@@ -190,6 +190,21 @@ export default {
 
             this.loader = null
         },
+    },
+    methods: {
+        mapPlanIndex(plan) {
+            this.selectedPlan = plan;
+            if (plan === 'basic') {
+                this.planIndex = 0;
+            } else if (plan === 'standard') {
+                this.planIndex = 1;
+            } else if (plan === 'premium') {
+                this.planIndex = 2;
+            } else if (plan === 'regular') {
+                this.planIndex = 3;
+            }
+            console.log(this.planIndex);
+        }
     },
 }
 </script>
@@ -220,7 +235,7 @@ export default {
     justify-content: space-around;
     align-items: center;
     color: #fff;
-    transition:all 0.3s ease-in-out;
+    transition: all 0.3s ease-in-out;
 
 
     .toggle-btn {
@@ -228,47 +243,48 @@ export default {
         border-radius: 30px;
         font-size: 14px;
         width: 80px;
-    transition:all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
 
     }
 
     .toggle-active {
-    transition:all 0.3s ease-in-out;
+        transition: all 0.3s ease-in-out;
         background: #fff;
         color: #26528C;
     }
 }
-.header-box{
-    height:80px;
-    width:80px;
-    background:#7D96B9;
-    cursor:pointer;
-    margin:10px auto;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:#fff;
-    font-size:14px;
-    transition:all 0.3s ease-in-out;
+
+.header-box {
+    height: 80px;
+    width: 80px;
+    background: #7D96B9;
+    cursor: pointer;
+    margin: 10px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 14px;
+    transition: all 0.3s ease-in-out;
 }
 
-.header-box:hover{
-    background:#26528C;
+.header-box:hover {
+    background: #26528C;
 }
 
-.header-box-active{
-    background:#26528C;
-    position:relative;
-}
-.header-box-active::after{
-  content: '';
-  position: absolute;
-  bottom: -4px;
-  left: 50%;
-  transform: translateX(-50%) rotate(45deg);
-  width: 20px;
-  height: 20px;
-  background-color: #26528C;
+.header-box-active {
+    background: #26528C;
+    position: relative;
 }
 
+.header-box-active::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+    width: 20px;
+    height: 20px;
+    background-color: #26528C;
+}
 </style>
