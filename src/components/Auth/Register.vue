@@ -23,7 +23,7 @@
                 Sign Up
             </v-btn>
 
-            <p class="footer">Already have an account? <a href="#">Login</a></p>
+            <p class="footer">Already have an account? <a href="/login">Login</a></p>
         </v-card>
     </div>
 </template>

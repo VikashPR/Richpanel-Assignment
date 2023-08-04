@@ -1,29 +1,11 @@
 <template>
-  <v-app class="main-container">
-    <RegisterComponent/>
+  <v-app id="app">
+    <router-view/>
   </v-app>
 </template>
 
-<script>
-import RegisterComponent from './components/Auth/Register.vue';
-
-
-export default {
-  name: 'App',
-
-  components: {
-    RegisterComponent
-  },
-
-  data: () => ({
-    //
-  }),
-};
-</script>
-
-<style>
+<style lang="scss">
 a{
-  text-decoration:none ;
+  text-decoration: none;
 }
-/* #26528C */
 </style>
