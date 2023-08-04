@@ -5,7 +5,7 @@
             <template v-slot:default>
                 <thead>
                     <tr>
-                        <th class="text-left">
+                        <th class="text-center">
                             <div class="toggle-plan-duration-btns">
                                 <button @click="planDuration = 'monthly'"
                                     :class="{ 'toggle-active': planDuration == 'monthly' }"
@@ -15,17 +15,29 @@
                                     class="toggle-btn">Yearly</button>
                             </div>
                         </th>
-                        <th class="text-left">
-                            Mobile
+                        <th class="text-center">
+                            <div
+                            @click="selectedPlan = 'mobile'"
+                            :class="{'header-box-active': selectedPlan == 'mobile'}"
+                             class="header-box">Mobile</div>
                         </th>
-                        <th class="text-left">
-                            Basic
+                        <th class="text-center">
+                            <div 
+                            @click="selectedPlan = 'basic'"
+                            :class="{'header-box-active': selectedPlan == 'basic'}"
+                            class="header-box">Basic</div>
                         </th>
-                        <th class="text-left">
-                            Standard
+                        <th class="text-center">
+                            <div
+                            @click="selectedPlan = 'standard'"
+                            :class="{'header-box-active': selectedPlan == 'standard'}"
+                             class="header-box">Standard</div>
                         </th>
-                        <th class="text-left">
-                            Premium
+                        <th class="text-center">
+                            <div
+                            @click="selectedPlan = 'premium'"
+                            :class="{'header-box-active': selectedPlan == 'premium'}"
+                             class="header-box">Premium</div>
                         </th>
                     </tr>
                 </thead>
@@ -34,7 +46,7 @@
                         <td>
                             Yearly Price
                         </td>
-                        <td v-for="item in planItems" :key="item.name">
+                        <td style="text-align:center" v-for="item in planItems" :key="item.name">
                             {{ item.price }}
                         </td>
                     </tr>
@@ -42,7 +54,7 @@
                         <td>
                             Video quality
                         </td>
-                        <td v-for="item in planItems" :key="item.name">
+                        <td style="text-align:center" v-for="item in planItems" :key="item.name">
                             {{ item.videoQuality }}
                         </td>
                     </tr>
@@ -50,7 +62,7 @@
                         <td>
                             Resolution
                         </td>
-                        <td v-for="item in planItems" :key="item.name">
+                        <td style="text-align:center" v-for="item in planItems" :key="item.name">
                             {{ item.resolution }}
                         </td>
                     </tr>
@@ -58,7 +70,7 @@
                         <td>
                             Number of active screens at one time
                         </td>
-                        <td v-for="item in planItems" :key="item.name">
+                        <td style="text-align:center" v-for="item in planItems" :key="item.name">
                             {{ item.NoOfActiveScreens }}
                         </td>
                     </tr>
@@ -66,7 +78,7 @@
                         <td>
                             Devices you can use to watch
                         </td>
-                        <td v-for="item in planItems" :key="item.name">
+                        <td style="text-align:center" v-for="item in planItems" :key="item.name">
                             <template v-for="device in item.devices">
                                 <div class="py-4" :key="device[0]">
                                     {{ device }}
@@ -93,6 +105,7 @@ export default {
             loader: null,
             loading: false,
             planDuration: 'monthly',
+            selectedPlan: null,
             yearly: [
                 {
                     name: 'Basic',
@@ -207,17 +220,55 @@ export default {
     justify-content: space-around;
     align-items: center;
     color: #fff;
+    transition:all 0.3s ease-in-out;
+
 
     .toggle-btn {
         padding: 10px;
         border-radius: 30px;
         font-size: 14px;
         width: 80px;
+    transition:all 0.3s ease-in-out;
+
     }
 
     .toggle-active {
+    transition:all 0.3s ease-in-out;
         background: #fff;
         color: #26528C;
     }
+}
+.header-box{
+    height:80px;
+    width:80px;
+    background:#7D96B9;
+    cursor:pointer;
+    margin:10px auto;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:#fff;
+    font-size:14px;
+    transition:all 0.3s ease-in-out;
+}
 
-}</style>
+.header-box:hover{
+    background:#26528C;
+}
+
+.header-box-active{
+    background:#26528C;
+    position:relative;
+}
+.header-box-active::after{
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 20px;
+  height: 20px;
+  background-color: #26528C;
+}
+
+</style>
