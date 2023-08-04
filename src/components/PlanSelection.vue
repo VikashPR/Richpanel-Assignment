@@ -6,7 +6,14 @@
                 <thead>
                     <tr>
                         <th class="text-left">
-                            Yearly / Monthly
+                            <div class="toggle-plan-duration-btns">
+                                <button @click="planDuration = 'monthly'"
+                                    :class="{ 'toggle-active': planDuration == 'monthly' }"
+                                    class="toggle-btn">Monthly</button>
+                                <button @click="planDuration = 'yearly'"
+                                    :class="{ 'toggle-active': planDuration == 'yearly' }"
+                                    class="toggle-btn">Yearly</button>
+                            </div>
                         </th>
                         <th class="text-left">
                             Mobile
@@ -23,12 +30,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- I have to loop data column vise than row wise -->
                     <tr>
                         <td>
                             Yearly Price
                         </td>
-                        <td v-for="item in yearly" :key="item.name">
+                        <td v-for="item in planItems" :key="item.name">
                             {{ item.price }}
                         </td>
                     </tr>
@@ -36,7 +42,7 @@
                         <td>
                             Video quality
                         </td>
-                        <td v-for="item in yearly" :key="item.name">
+                        <td v-for="item in planItems" :key="item.name">
                             {{ item.videoQuality }}
                         </td>
                     </tr>
@@ -44,7 +50,7 @@
                         <td>
                             Resolution
                         </td>
-                        <td v-for="item in yearly" :key="item.name">
+                        <td v-for="item in planItems" :key="item.name">
                             {{ item.resolution }}
                         </td>
                     </tr>
@@ -52,7 +58,7 @@
                         <td>
                             Number of active screens at one time
                         </td>
-                        <td v-for="item in yearly" :key="item.name">
+                        <td v-for="item in planItems" :key="item.name">
                             {{ item.NoOfActiveScreens }}
                         </td>
                     </tr>
@@ -60,7 +66,7 @@
                         <td>
                             Devices you can use to watch
                         </td>
-                        <td v-for="item in yearly" :key="item.name">
+                        <td v-for="item in planItems" :key="item.name">
                             <template v-for="device in item.devices">
                                 <div class="py-4" :key="device[0]">
                                     {{ device }}
@@ -73,8 +79,7 @@
             </template>
         </v-simple-table>
 
-        <v-btn :loading="loading" :disabled="loading" large
-     color="#26528C" class="submit-btn white--text"
+        <v-btn :loading="loading" :disabled="loading" large color="#26528C" class="submit-btn white--text"
             @click="loader = 'loading'">
             Next
         </v-btn>
@@ -85,8 +90,9 @@
 export default {
     data() {
         return {
-             loader: null,
+            loader: null,
             loading: false,
+            planDuration: 'monthly',
             yearly: [
                 {
                     name: 'Basic',
@@ -157,7 +163,12 @@ export default {
             ],
         }
     },
-     watch: {
+    computed: {
+        planItems() {
+            return this.planDuration === 'monthly' ? this.monthly : this.yearly;
+        }
+    },
+    watch: {
         loader() {
             const l = this.loader
             this[l] = !this[l]
@@ -185,4 +196,28 @@ export default {
 .submit-btn {
     width: 250px;
 }
-</style>
+
+.toggle-plan-duration-btns {
+    width: 200px;
+    background: #26528C;
+    padding: 10px;
+    margin: 10px;
+    border-radius: 30px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    color: #fff;
+
+    .toggle-btn {
+        padding: 10px;
+        border-radius: 30px;
+        font-size: 14px;
+        width: 80px;
+    }
+
+    .toggle-active {
+        background: #fff;
+        color: #26528C;
+    }
+
+}</style>
