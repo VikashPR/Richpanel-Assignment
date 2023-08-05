@@ -4,16 +4,16 @@
             <div class="card-header">
                 <h1 class="card-title">Current Plan Details</h1>
 
-                <v-chip class="mx-2 card-status" v-if="userPlan.plan === 'cancelled'"
-                    :class="{ 'card-status-cancelled': userPlan.plan == 'cancelled' }" color="#F9DCC5" label>
+                <v-chip class="mx-2 card-status" v-if="userPlan.planStatus === 'cancelled'"
+                    :class="{ 'card-status-cancelled': userPlan.planStatus == 'cancelled' }" color="#F9DCC5" label>
                     Cancelled
                 </v-chip>
-                <v-chip class="mx-2 card-status" v-else-if="userPlan.plan === 'active'"
-                    :class="{ 'card-status-active': userPlan.plan == 'active' }" color="#C5DDF9" label>
+                <v-chip class="mx-2 card-status" v-else-if="userPlan.planStatus === 'active'"
+                    :class="{ 'card-status-active': userPlan.planStatus == 'active' }" color="#C5DDF9" label>
                     Active
                 </v-chip>
 
-                <v-chip @click="cancelPlan" v-if="userPlan.plan != 'cancelled'" class="ml-auto cancel-plan" color="#26528C" label
+                <v-chip @click="cancelPlan" v-if="userPlan.planStatus != 'cancelled'" class="ml-auto cancel-plan" color="#26528C" label
                     outlined>
                     Cancel
                 </v-chip>
@@ -21,14 +21,14 @@
 
             <div class="card-body">
                 <div class="card-body-left">
-                    <div class="text-subtitle-1">{{ userPlan.planDetails.name}}</div>
+                    <div class="plan-name">{{ userPlan.name}}</div>
                     <span>
-                        <span v-for="(device, index) in userPlan.planDetails.devices" :key="index">
-                            {{ device }}{{ index < userPlan.planDetails.devices.length - 1 ? ' + ' : '' }}
+                        <span v-for="(device, index) in userPlan.devices" :key="index">
+                            {{ device }}{{ index < userPlan.devices.length - 1 ? ' + ' : '' }}
                     </span>
                     </span>
-                    <h2 v-if="userPlan.planDuration == 'monthly' ">₹ {{ userPlan.planDetails.price }}<small>/mo</small> </h2>
-                    <h2 v-if="userPlan.planDuration == 'yearly' ">₹ {{ userPlan.planDetails.price }}<small>/yr</small> </h2>
+                    <h2 v-if="userPlan.planDuration == 'monthly' ">₹ {{ userPlan.price }}<small>/mo</small> </h2>
+                    <h2 v-if="userPlan.planDuration == 'yearly' ">₹ {{ userPlan.price }}<small>/yr</small> </h2>
                 </div>
                 <div class="card-body-right">
                     <router-link to="/">
@@ -38,9 +38,9 @@
                 <v-footer padless>
                     <p>
                         Your subscription started on
-                        <strong>Aug 20th, 2023</strong>
+                        <strong>{{userPlan.subscriptionStartOn}}</strong>
                         and will auto renew on
-                        <strong>Aug 21th, 2024</strong>.
+                        <strong>{{ userPlan.subscriptionEndOn }}</strong>.
                     </p>
                 </v-footer>
             </div>
@@ -49,25 +49,19 @@
 </template>
 
 <script>
+import { fetchUserPlan } from '@/services/FetchUserPlanService';
+import {auth} from '../firebase'
 export default {
     name: 'UserPlan',
     data() {
         return {
-            userPlan: {
-                plan: 'active',
-                subscriptionStartOn: 'Aug 20th, 2023',
-                subscriptionEndOn: 'Aug 21th, 2024',
-                planDuration: 'monthly',
-                planDetails: {
-                    name: 'Basic',
-                    price: 200,
-                    videoQuality: 'Good',
-                    resolution: '480p',
-                    devices: ['Phone', 'Tablet'],
-                    NoOfActiveScreens: 1
-                }
-            }
+            userPlan: {}
         }
+    },
+    created() {
+        fetchUserPlan(auth.currentUser.uid).then((res) => {
+            this.userPlan = res
+        })
     },
     methods: {
         cancelPlan() {
@@ -130,12 +124,16 @@ main {
             margin-top: 15px;
             flex-direction: column;
             gap: 20px;
-
             .card-body-left {
                 display: flex;
                 flex-direction: column;
                 justify-content: space-between;
                 align-items: flex-start;
+
+                .plan-name {
+                    font-size: 1.2rem;
+                    font-weight: 500;
+                }
 
                 h2 {
                     font-size: 2rem;
