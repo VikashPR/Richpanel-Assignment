@@ -31,7 +31,7 @@ const routes = [
     component: () => import('../views/PaymentView.vue')
   },
   {
-    path: '/user-plan',
+    path: '/user-plan/:planDuration/:selectedPlan',
     name: 'user-plan',
     component: () => import('../views/UserPlanView.vue')
   },
