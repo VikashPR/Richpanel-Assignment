@@ -4,18 +4,17 @@
             <div class="card-header">
                 <h1 class="card-title">Current Plan Details</h1>
 
-                <v-chip class="mx-2 card-status" v-if="userPlanStatus === 'cancelled'" 
-                :class="{ 'card-status-cancelled': userPlanStatus == 'cancelled' }"
-                color="#F9DCC5" label>
+                <v-chip class="mx-2 card-status" v-if="userPlanStatus === 'cancelled'"
+                    :class="{ 'card-status-cancelled': userPlanStatus == 'cancelled' }" color="#F9DCC5" label>
                     Cancelled
                 </v-chip>
                 <v-chip class="mx-2 card-status" v-else-if="userPlanStatus === 'active'"
-                :class="{ 'card-status-active': userPlanStatus == 'active' }"
-                 color="#C5DDF9" label>
+                    :class="{ 'card-status-active': userPlanStatus == 'active' }" color="#C5DDF9" label>
                     Active
                 </v-chip>
 
-                <v-chip v-if="userPlanStatus != 'cancelled'" @click="cancelPlan" class="ml-auto" color="orange" label outlined>
+                <v-chip v-if="userPlanStatus != 'cancelled'" @click="cancelPlan" class="ml-auto" color="orange" label
+                    outlined>
                     Cancel
                 </v-chip>
             </div>
@@ -47,7 +46,7 @@ export default {
     name: 'UserPlan',
     data() {
         return {
-            userPlanStatus: 'active'      
+            userPlanStatus: 'active'
         }
     },
     methods: {
@@ -83,18 +82,18 @@ main {
                 display: inline-block;
             }
 
-            .card-status{
-                font-weight:600;
-                padding:10px !important;
+            .card-status {
+                font-weight: 600;
+                padding: 10px !important;
                 border-radius: 8px !important;
             }
 
-            .card-status-active{
-                color:#26528C
+            .card-status-active {
+                color: #26528C
             }
 
-            .card-status-cancelled{
-                color:#D6716D
+            .card-status-cancelled {
+                color: #D6716D
             }
         }
 
