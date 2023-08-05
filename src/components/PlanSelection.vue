@@ -211,7 +211,8 @@ export default {
     align-items: center;
     justify-content: center;
     color: #fff;
-    font-size: 14px;
+    font-size: 15px;
+    font-weight: 600;
     transition: all 0.3s ease-in-out;
 }
 
@@ -233,5 +234,11 @@ export default {
     width: 20px;
     height: 20px;
     background-color: #26528C;
+}
+
+td {
+    font-size: 15px !important;
+    font-weight: 600 !important;
+    color: #737373;
 }
 </style>
