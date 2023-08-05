@@ -1,11 +1,21 @@
 <template>
     <main>
+        <v-snackbar color="success" absolute top right v-model="snackbar" :timeout="timeout">
+            {{ text }}
+            <template v-slot:action="{ attrs }">
+                <v-btn color="blue" text v-bind="attrs" @click="snackbar = false">
+                    Close
+                </v-btn>
+            </template>
+        </v-snackbar>
         <div class="card">
+
             <div class="left">
                 <h1>Complete Payment</h1>
                 <span>Enter your credit or debit card detail below</span>
                 <stripe-element-card ref="elementRef" :pk="publishableKey" @token="tokenCreated" />
-                <v-btn :loading="loading" :disabled="loading" depressed large color="#26528C" class="submit-btn white--text" @click="submit">Confirm
+                <v-btn :loading="loading" :disabled="loading" depressed large color="#26528C" class="submit-btn white--text"
+                    @click="submit">Confirm
                     Payment</v-btn>
             </div>
 
@@ -52,6 +62,9 @@ export default {
             planDuration: null,
             loading: false,
             planDetails: null,
+            snackbar: false,
+            text: 'Payment successful! Please wait ...',
+            timeout: 2000,
             yearly: [
                 {
                     name: 'Basic',
@@ -135,12 +148,16 @@ export default {
 
             this.$refs.elementRef.submit();
 
-            this.planDetails = this.planDuration == 'monthly' ? this.monthly.find(plan => plan.name.toLowerCase() == this.selectedPlan) : this.yearly.find(plan => plan.name.toLowerCase() == this.selectedPlan);
+            console.log(this.$refs.elementRef)
 
+            this.planDetails = this.planDuration == 'monthly' ? this.monthly.find(plan => plan.name.toLowerCase() == this.selectedPlan) : this.yearly.find(plan => plan.name.toLowerCase() == this.selectedPlan);
+            setTimeout(() => {
+                this.snackbar = true
+            }, 2000);
             console.log(this.planDetails);
 
             setTimeout(() => {
-                this.$router.push({name: 'user-plan'});
+                this.$router.push({ name: 'user-plan' });
                 this.loading = false;
             }, 3000);
 
