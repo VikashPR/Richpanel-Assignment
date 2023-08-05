@@ -26,7 +26,7 @@ const routes = [
     component: () => import(/* webpackChunkName: "about" */ '../views/Auth/LoginView.vue')
   },
   {
-    path: '/payment',
+    path: '/payment/:planDuration/:selectedPlan',
     name: 'payment',
     component: () => import('../views/PaymentView.vue')
   },

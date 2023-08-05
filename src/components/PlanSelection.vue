@@ -90,7 +90,7 @@
         </v-simple-table>
 
         <v-btn :loading="loading" :disabled="loading" large color="#26528C" class="submit-btn white--text"
-            @click="loader = 'loading'">
+            @click="proceedPayment">
             Next
         </v-btn>
     </section>
@@ -181,16 +181,6 @@ export default {
         }
     },
 
-    watch: {
-        loader() {
-            const l = this.loader
-            this[l] = !this[l]
-
-            setTimeout(() => (this[l] = false), 3000)
-
-            this.loader = null
-        },
-    },
     methods: {
         mapPlanIndex(plan) {
             this.selectedPlan = plan;
@@ -204,6 +194,21 @@ export default {
                 this.planIndex = 3;
             }
             console.log(this.planIndex);
+        },
+        proceedPayment() {
+            console.log(this.planDuration, this.selectedPlan);
+
+            this.loading = true;
+
+            setTimeout(() => {
+                this.loading = false;
+                this.$router.push({
+                    name: 'payment', params: {
+                        planDuration: this.planDuration,
+                        selectedPlan: this.selectedPlan,
+                    }
+                });
+            }, 3000);
         }
     },
 }
