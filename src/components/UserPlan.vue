@@ -36,12 +36,18 @@
                         <v-btn depressed outlined color="#26528C" large  class="submit-btn" @click="submit">Change Plan</v-btn>
                     </router-link>
                 </div>
-                <v-footer padless>
+                <v-footer v-if="userPlan.planStatus == 'active'" padless>
                     <p>
                         Your subscription started on
                         <strong>{{userPlan.subscriptionStartOn}}</strong>
                         and will auto renew on
                         <strong>{{ userPlan.subscriptionEndOn }}</strong>.
+                    </p>
+                </v-footer>
+                <v-footer v-if="userPlan.planStatus == 'cancelled'" padless>
+                    <p>
+                        Your subscription has been cancelled and you will loose access to service on
+                        <strong>{{userPlan.subscriptionCancelledOn}}</strong>.
                     </p>
                 </v-footer>
             </div>
@@ -66,6 +72,9 @@ export default {
     },
     methods: {
         cancelPlan() {
+            // subscriptionCancelledOn format should be Aug 20th, 2023
+            let subscriptionCancelledOn = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            this.userPlan.subscriptionCancelledOn = subscriptionCancelledOn
             this.userPlan.planStatus = 'cancelled'
             db.collection('users').doc(auth.currentUser.uid).update({
                 userPlan: this.userPlan
