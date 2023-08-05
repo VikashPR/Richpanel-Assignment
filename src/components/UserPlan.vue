@@ -4,16 +4,16 @@
             <div class="card-header">
                 <h1 class="card-title">Current Plan Details</h1>
 
-                <v-chip class="mx-2 card-status" v-if="userPlanStatus === 'cancelled'"
-                    :class="{ 'card-status-cancelled': userPlanStatus == 'cancelled' }" color="#F9DCC5" label>
+                <v-chip class="mx-2 card-status" v-if="userPlan.plan === 'cancelled'"
+                    :class="{ 'card-status-cancelled': userPlan.plan == 'cancelled' }" color="#F9DCC5" label>
                     Cancelled
                 </v-chip>
-                <v-chip class="mx-2 card-status" v-else-if="userPlanStatus === 'active'"
-                    :class="{ 'card-status-active': userPlanStatus == 'active' }" color="#C5DDF9" label>
+                <v-chip class="mx-2 card-status" v-else-if="userPlan.plan === 'active'"
+                    :class="{ 'card-status-active': userPlan.plan == 'active' }" color="#C5DDF9" label>
                     Active
                 </v-chip>
 
-                <v-chip v-if="userPlanStatus != 'cancelled'" @click="cancelPlan" class="ml-auto" color="orange" label
+                <v-chip @click="cancelPlan" v-if="userPlan.plan != 'cancelled'" class="ml-auto cancel-plan" color="#26528C" label
                     outlined>
                     Cancel
                 </v-chip>
@@ -21,12 +21,19 @@
 
             <div class="card-body">
                 <div class="card-body-left">
-                    <div class="text-subtitle-1">Basic</div>
-                    <span>Phone + Tablet</span>
-                    <h2>₹ 200/mo</h2>
+                    <div class="text-subtitle-1">{{ userPlan.planDetails.name}}</div>
+                    <span>
+                        <span v-for="(device, index) in userPlan.planDetails.devices" :key="index">
+                            {{ device }}{{ index < userPlan.planDetails.devices.length - 1 ? ' + ' : '' }}
+                    </span>
+                    </span>
+                    <h2 v-if="userPlan.planDuration == 'monthly' ">₹ {{ userPlan.planDetails.price }}<small>/mo</small> </h2>
+                    <h2 v-if="userPlan.planDuration == 'yearly' ">₹ {{ userPlan.planDetails.price }}<small>/yr</small> </h2>
                 </div>
                 <div class="card-body-right">
-                    <v-btn depressed outlined color="#26528C" large class="submit-btn" @click="submit">Change Plan</v-btn>
+                    <router-link to="/">
+                        <v-btn depressed outlined color="#26528C" large  class="submit-btn" @click="submit">Change Plan</v-btn>
+                    </router-link>
                 </div>
                 <v-footer padless>
                     <p>
@@ -46,12 +53,25 @@ export default {
     name: 'UserPlan',
     data() {
         return {
-            userPlanStatus: 'active',
+            userPlan: {
+                plan: 'active',
+                subscriptionStartOn: 'Aug 20th, 2023',
+                subscriptionEndOn: 'Aug 21th, 2024',
+                planDuration: 'monthly',
+                planDetails: {
+                    name: 'Basic',
+                    price: 200,
+                    videoQuality: 'Good',
+                    resolution: '480p',
+                    devices: ['Phone', 'Tablet'],
+                    NoOfActiveScreens: 1
+                }
+            }
         }
     },
     methods: {
         cancelPlan() {
-            this.userPlanStatus = 'cancelled'
+            this.userPlan.plan = 'cancelled'
         }
     }
 }
@@ -94,6 +114,12 @@ main {
 
             .card-status-cancelled {
                 color: #D6716D
+            }
+
+            .cancel-plan{
+                font-weight: 600;
+                padding: 10px !important;
+                border: none !important;
             }
         }
 
