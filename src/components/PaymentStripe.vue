@@ -49,6 +49,10 @@
 </template>
 
 <script>
+import SetUserPlan from '@/services/SetUserPlanService.js';
+import UpdateOrderHistory from '@/services/UpdateOrderHistoryService.js';
+
+import { auth } from '@/firebase';
 import { StripeElementCard } from '@vue-stripe/vue-stripe';
 export default {
     components: {
@@ -63,6 +67,7 @@ export default {
             loading: false,
             planDetails: null,
             snackbar: false,
+            uId: null,
             text: 'Payment successful! Please wait ...',
             timeout: 2000,
             yearly: [
@@ -139,11 +144,11 @@ export default {
     created() {
         this.selectedPlan = this.$route.params.selectedPlan;
         this.planDuration = this.$route.params.planDuration;
+        this.uId = auth.currentUser.uid;
     },
 
     methods: {
         submit() {
-            // this will trigger the process
             this.loading = true;
 
             this.$refs.elementRef.submit();
@@ -151,10 +156,19 @@ export default {
             console.log(this.$refs.elementRef)
 
             this.planDetails = this.planDuration == 'monthly' ? this.monthly.find(plan => plan.name.toLowerCase() == this.selectedPlan) : this.yearly.find(plan => plan.name.toLowerCase() == this.selectedPlan);
+            let planStatus = "active"
+            let subscriptionStartOn = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            let subscriptionEndOn = this.planDuration == 'monthly' ? new Date(new Date().setDate(new Date().getDate() + 30)).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : new Date(new Date().setDate(new Date().getDate() + 365)).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            this.planDetails = { ...this.planDetails, planStatus, subscriptionStartOn, subscriptionEndOn, planDuration: this.planDuration };
+
             setTimeout(() => {
                 this.snackbar = true
             }, 2000);
-            console.log(this.planDetails);
+            console.log(this.uId, this.planDetails);
+
+            SetUserPlan(this.uId, this.planDetails);
+
+            UpdateOrderHistory(this.uId, this.planDetails)
 
             setTimeout(() => {
                 this.$router.push({ name: 'user-plan' });

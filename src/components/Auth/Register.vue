@@ -63,6 +63,9 @@ export default {
                     name: this.name,
                     email: this.email,
                 })
+                await db.collection('orderHistory').doc(auth.currentUser.uid).set({
+                    orderHistory: []
+                })
                 this.loading = false
                 this.$router.push('/')
             } catch (error) {
