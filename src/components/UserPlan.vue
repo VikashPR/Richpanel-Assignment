@@ -8,6 +8,7 @@
                     :class="{ 'card-status-cancelled': userPlan.planStatus == 'cancelled' }" color="#F9DCC5" label>
                     Cancelled
                 </v-chip>
+
                 <v-chip class="mx-2 card-status" v-else-if="userPlan.planStatus === 'active'"
                     :class="{ 'card-status-active': userPlan.planStatus == 'active' }" color="#C5DDF9" label>
                     Active
@@ -50,7 +51,7 @@
 
 <script>
 import { fetchUserPlan } from '@/services/FetchUserPlanService';
-import {auth} from '../firebase'
+import {auth, db} from '../firebase'
 export default {
     name: 'UserPlan',
     data() {
@@ -65,7 +66,10 @@ export default {
     },
     methods: {
         cancelPlan() {
-            this.userPlan.plan = 'cancelled'
+            this.userPlan.planStatus = 'cancelled'
+            db.collection('users').doc(auth.currentUser.uid).update({
+                userPlan: this.userPlan
+            })
         }
     }
 }
