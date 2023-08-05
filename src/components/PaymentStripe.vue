@@ -13,7 +13,6 @@
             <div class="left">
                 <h1>Complete Payment</h1>
                 <span>Enter your credit or debit card detail below</span>
-                <stripe-element-card ref="elementRef" :pk="publishableKey" @token="tokenCreated" />
                 <v-btn :loading="loading" :disabled="loading" depressed large color="#26528C" class="submit-btn white--text"
                     @click="submit">Confirm
                     Payment</v-btn>
@@ -53,15 +52,9 @@ import SetUserPlan from '@/services/SetUserPlanService.js';
 import UpdateOrderHistory from '@/services/UpdateOrderHistoryService.js';
 import {fetchPlans} from '@/services/FetchPlansService.js';
 import { auth } from '@/firebase';
-import { StripeElementCard } from '@vue-stripe/vue-stripe';
 export default {
-    components: {
-        StripeElementCard,
-    },
     data() {
-        this.publishableKey = "pk_test_51NbNxWSCvAqhlDJnKzdvJcLSYHoVWygkKPn0aVTJOGhc8yMiD5I7AJqA54p1PN7PzGsK3QtiDIu2pW2vOAHALsuq00Awlo9qcY";
         return {
-            token: null,
             selectedPlan: null,
             planDuration: null,
             loading: false,
@@ -93,10 +86,6 @@ export default {
         submit() {
             this.loading = true;
 
-            this.$refs.elementRef.submit();
-
-            console.log(this.$refs.elementRef)
-
             this.planDetails = this.planDuration == 'monthly' ? this.monthly.find(plan => plan.name.toLowerCase() == this.selectedPlan) : this.yearly.find(plan => plan.name.toLowerCase() == this.selectedPlan);
             let planStatus = "active"
             let subscriptionStartOn = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
@@ -117,11 +106,6 @@ export default {
                 this.loading = false;
             }, 3000);
 
-        },
-        tokenCreated(token) {
-            console.log(token);
-            // handle the token
-            // send it to your server
         },
     }
 };
