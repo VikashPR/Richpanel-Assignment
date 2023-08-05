@@ -30,6 +30,11 @@ const routes = [
     name: 'payment',
     component: () => import('../views/PaymentView.vue')
   },
+  {
+    path: '/user-plan',
+    name: 'user-plan',
+    component: () => import('../views/UserPlanView.vue')
+  },
 ]
 
 const router = new VueRouter({
