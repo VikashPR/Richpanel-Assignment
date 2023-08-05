@@ -13,9 +13,10 @@
             <div class="left">
                 <h1>Complete Payment</h1>
                 <span>Enter your credit or debit card detail below</span>
-                <v-btn :loading="loading" :disabled="loading" depressed large color="#26528C" class="submit-btn white--text"
-                    @click="submit">Confirm
-                    Payment</v-btn>
+                <stripe-element-card ref="elementRef" :pk="publishableKey" @token="tokenCreated" />
+                <v-btn :loading="loading" :disabled="loading" depressed large color="#26528C" class="submit-btn white--text" @click="submit">
+                    Confirm Payment
+                </v-btn>
             </div>
 
             <div class="right">
@@ -50,11 +51,18 @@
 <script>
 import SetUserPlan from '@/services/SetUserPlanService.js';
 import UpdateOrderHistory from '@/services/UpdateOrderHistoryService.js';
-import {fetchPlans} from '@/services/FetchPlansService.js';
-import { auth } from '@/firebase';
+import { fetchPlans } from '@/services/FetchPlansService.js';
+import { auth, db } from '@/firebase';
+import { StripeElementCard } from '@vue-stripe/vue-stripe';
+
 export default {
+    components: {
+    StripeElementCard,
+  },
     data() {
+        this.publishableKey = "pk_test_51NbNxWSCvAqhlDJnKzdvJcLSYHoVWygkKPn0aVTJOGhc8yMiD5I7AJqA54p1PN7PzGsK3QtiDIu2pW2vOAHALsuq00Awlo9qcY";
         return {
+            token: null,
             selectedPlan: null,
             planDuration: null,
             loading: false,
@@ -67,7 +75,6 @@ export default {
             monthly: [],
         };
     },
-
     created() {
         this.selectedPlan = this.$route.params.selectedPlan;
         this.planDuration = this.$route.params.planDuration;
@@ -85,6 +92,7 @@ export default {
     methods: {
         submit() {
             this.loading = true;
+            this.$refs.elementRef.submit();
 
             this.planDetails = this.planDuration == 'monthly' ? this.monthly.find(plan => plan.name.toLowerCase() == this.selectedPlan) : this.yearly.find(plan => plan.name.toLowerCase() == this.selectedPlan);
             let planStatus = "active"
@@ -95,7 +103,6 @@ export default {
             setTimeout(() => {
                 this.snackbar = true
             }, 2000);
-            console.log(this.uId, this.planDetails);
 
             SetUserPlan(this.uId, this.planDetails);
 
@@ -105,7 +112,32 @@ export default {
                 this.$router.push({ name: 'user-plan' });
                 this.loading = false;
             }, 3000);
+        },
+        tokenCreated(token) {
+            console.log(token);
 
+            let price = this.planDuration == 'monthly' ? this.monthly.find(plan => plan.name.toLowerCase() == this.selectedPlan).price : this.yearly.find(plan => plan.name.toLowerCase() == this.selectedPlan).price;
+            this.token = token;
+            let source = this.token;
+
+            let stripeObj = {
+                source,
+                price,
+                plan: this.selectedPlan,
+                planDuration: this.planDuration,
+            }
+
+            console.log(stripeObj);
+
+            db.collection('charges').doc(this.uId).set(stripeObj)
+                .then(() => {
+                    console.log('charge added');
+                })
+                .catch((error) => {
+                    console.log(error);
+                })
+            // handle the token
+            // send it to your server
         },
     }
 };

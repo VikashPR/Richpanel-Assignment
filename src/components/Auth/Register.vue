@@ -66,6 +66,9 @@ export default {
                 await db.collection('orderHistory').doc(auth.currentUser.uid).set({
                     orderHistory: []
                 })
+                await db.collection('charges').doc(auth.currentUser.uid).set({
+                    stripeObject: null
+                })
                 this.loading = false
                 this.$router.push('/')
             } catch (error) {
