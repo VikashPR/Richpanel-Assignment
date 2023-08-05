@@ -15,8 +15,8 @@
             <v-checkbox v-model="RememberMe" label="Remember Me"></v-checkbox>
 
             <v-btn :loading="loading" :disabled="loading" color="#26528C" class="submit-btn white--text"
-                @click="loader = 'loading'">
-                Sign Up
+                @click="login">
+                Login
             </v-btn>
 
             <p class="footer">New to MyApp? <a href="register">Sign Up</a></p>
@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import { auth } from '../../firebase'
 export default {
     name: 'RegisterComponent',
     data() {
@@ -49,16 +50,20 @@ export default {
             }
         }
     },
-    watch: {
-        loader() {
-            const l = this.loader
-            this[l] = !this[l]
-
-            setTimeout(() => (this[l] = false), 3000)
-
-            this.loader = null
-        },
-    },
+    methods: {
+        login() {
+            this.loading = true
+            auth.signInWithEmailAndPassword(this.email, this.password)
+                .then(() => {
+                    this.loading = false
+                    this.$router.push({ name: 'home' })
+                })
+                .catch((error) => {
+                    this.loading = false
+                    this.$toast.error(error.message)
+                })
+        }
+    }
 }
 </script>
 
