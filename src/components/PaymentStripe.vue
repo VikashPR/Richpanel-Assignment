@@ -51,7 +51,7 @@
 <script>
 import SetUserPlan from '@/services/SetUserPlanService.js';
 import UpdateOrderHistory from '@/services/UpdateOrderHistoryService.js';
-
+import {fetchPlans} from '@/services/FetchPlansService.js';
 import { auth } from '@/firebase';
 import { StripeElementCard } from '@vue-stripe/vue-stripe';
 export default {
@@ -70,74 +70,8 @@ export default {
             uId: null,
             text: 'Payment successful! Please wait ...',
             timeout: 2000,
-            yearly: [
-                {
-                    name: 'Basic',
-                    price: 1000,
-                    videoQuality: 'Good',
-                    resolution: '480p',
-                    devices: ['Phone'],
-                    NoOfActiveScreens: 1
-                },
-                {
-                    name: 'Standard',
-                    price: 2000,
-                    videoQuality: 'Good',
-                    resolution: '720p',
-                    devices: ['Phone', 'Tablet'],
-                    NoOfActiveScreens: 3
-                },
-                {
-                    name: 'Premium',
-                    price: 5000,
-                    videoQuality: 'Better',
-                    resolution: '1080p',
-                    devices: ['Phone', 'Tablet', 'Computer'],
-                    NoOfActiveScreens: 10
-                },
-                {
-                    name: 'Regular',
-                    price: 7000,
-                    videoQuality: 'Best',
-                    resolution: '4K+HDR',
-                    devices: ['Phone', 'Tablet', 'TV'],
-                    NoOfActiveScreens: 10
-                }
-            ],
-            monthly: [
-                {
-                    name: 'Basic',
-                    price: 100,
-                    videoQuality: 'Good',
-                    resolution: '480p',
-                    devices: ['Phone'],
-                    NoOfActiveScreens: 1
-                },
-                {
-                    name: 'Standard',
-                    price: 200,
-                    videoQuality: 'Good',
-                    resolution: '720p',
-                    devices: ['Phone', 'Tablet'],
-                    NoOfActiveScreens: 3
-                },
-                {
-                    name: 'Premium',
-                    price: 500,
-                    videoQuality: 'Better',
-                    resolution: '1080p',
-                    devices: ['Phone', 'Tablet', 'Computer'],
-                    NoOfActiveScreens: 10
-                },
-                {
-                    name: 'Regular',
-                    price: 700,
-                    videoQuality: 'Best',
-                    resolution: '4K+HDR',
-                    devices: ['Phone', 'Tablet', 'TV'],
-                    NoOfActiveScreens: 10
-                }
-            ],
+            yearly: [],
+            monthly: [],
         };
     },
 
@@ -145,6 +79,14 @@ export default {
         this.selectedPlan = this.$route.params.selectedPlan;
         this.planDuration = this.$route.params.planDuration;
         this.uId = auth.currentUser.uid;
+        fetchPlans()
+            .then((response) => {
+                this.monthly = response[0].allPlans
+                this.yearly = response[1].allPlans
+            })
+            .catch((error) => {
+                console.log(error)
+            })
     },
 
     methods: {
