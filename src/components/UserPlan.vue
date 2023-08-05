@@ -46,7 +46,7 @@ export default {
     name: 'UserPlan',
     data() {
         return {
-            userPlanStatus: 'active'
+            userPlanStatus: 'active',
         }
     },
     methods: {

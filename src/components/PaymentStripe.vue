@@ -51,6 +51,7 @@ export default {
             selectedPlan: null,
             planDuration: null,
             loading: false,
+            planDetails: null,
             yearly: [
                 {
                     name: 'Basic',
@@ -134,14 +135,12 @@ export default {
 
             this.$refs.elementRef.submit();
 
+            this.planDetails = this.planDuration == 'monthly' ? this.monthly.find(plan => plan.name.toLowerCase() == this.selectedPlan) : this.yearly.find(plan => plan.name.toLowerCase() == this.selectedPlan);
+
+            console.log(this.planDetails);
+
             setTimeout(() => {
-                this.$router.push({
-                    name: 'user-plan',
-                    params: {
-                        selectedPlan: this.selectedPlan,
-                        planDuration: this.planDuration,
-                    },
-                });
+                this.$router.push({name: 'user-plan'});
                 this.loading = false;
             }, 3000);
 
