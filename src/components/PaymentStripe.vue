@@ -23,7 +23,7 @@
                 <h2>Order Summary</h2>
                 <div class="order-details">
                     <div class="order-detail">
-                        <span>PlanName</span>
+                        <span>Plan Name</span>
                         <span>{{ this.selectedPlan }}</span>
                     </div>
                     <hr />
@@ -36,10 +36,10 @@
                         <span>Plan Price</span>
 
                         <span v-if="planDuration == 'monthly'">
-                            {{ this.monthly.find(plan => plan.name.toLowerCase() == this.selectedPlan).price }}/Mo
+                            ₹{{ this.monthly.find(plan => plan.name.toLowerCase() == this.selectedPlan).price }}/Mo
                         </span>
                         <span v-else-if="planDuration == 'yearly'">
-                            {{ this.yearly.find(plan => plan.name.toLowerCase() == this.selectedPlan).price }}/Yr</span>
+                            ₹{{ this.yearly.find(plan => plan.name.toLowerCase() == this.selectedPlan).price }}/Yr</span>
                     </div>
                     <hr />
                 </div>
@@ -168,6 +168,10 @@ main {
             flex-direction: column;
             gap: 20px;
 
+            span{
+                color: #737373;
+            }
+
             .submit-btn {
                 max-width: 200px;
 
@@ -195,6 +199,7 @@ main {
 
                     :nth-child(2) {
                         text-transform: capitalize;
+                        font-weight:600;
                     }
                 }
             }

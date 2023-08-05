@@ -24,7 +24,7 @@
                 <div class="card-body-left">
                     <div class="plan-name">{{ userPlan.name}}</div>
                     <span>
-                        <span v-for="(device, index) in userPlan.devices" :key="index">
+                        <span class="plan-devices" v-for="(device, index) in userPlan.devices" :key="index">
                             {{ device }}{{ index < userPlan.devices.length - 1 ? ' + ' : '' }}
                     </span>
                     </span>
@@ -107,6 +107,8 @@ main {
 
             .card-title {
                 display: inline-block;
+                font-weight: 500;
+                font-size:24px;
             }
 
             .card-status {
@@ -144,8 +146,14 @@ main {
                 align-items: flex-start;
 
                 .plan-name {
-                    font-size: 1.2rem;
+                    font-size: 1.3rem;
                     font-weight: 500;
+                    color: #737373;
+                }
+                .plan-devices{
+                    font-size: 14px;
+                    font-weight: 400;
+                    color:#8B8B8D
                 }
 
                 h2 {
