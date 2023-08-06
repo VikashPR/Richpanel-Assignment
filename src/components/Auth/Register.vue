@@ -19,7 +19,7 @@
             <v-checkbox v-model="RememberMe" label="Remember Me"></v-checkbox>
 
             <v-btn :loading="loading"
-             :disabled="loading" color="#26528C"  class="submit-btn white--text" @click="register">
+             :disabled="disabled" color="#26528C"  class="submit-btn white--text" @click="register">
                 Sign Up
             </v-btn>
 
@@ -36,7 +36,6 @@ export default {
         return {
             email: '',
             show: false,
-            loader: null,
             loading: false,
             rules: {
                 required: value => !!value || 'Required.',
@@ -51,6 +50,15 @@ export default {
                     min: v => v.length >= 8 || 'Min 8 characters',
                     emailMatch: () => (`The email and password you entered don't match`),
                 },
+            }
+        }
+    },
+    computed: {
+        disabled() {
+            if (this.email && this.password && this.name) {
+                return false
+            } else {
+                return true
             }
         }
     },

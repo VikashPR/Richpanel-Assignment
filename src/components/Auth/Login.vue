@@ -32,7 +32,6 @@ export default {
         return {
             email: '',
             show: false,
-            loader: null,
             loading: false,
             rules: {
                 required: value => !!value || 'Required.',
@@ -52,6 +51,11 @@ export default {
     },
     methods: {
         login() {
+
+            if (this.email === '' || this.password === '') {
+                this.$toast.error('Please fill all the fields')
+                return
+            }
             this.loading = true
             auth.signInWithEmailAndPassword(this.email, this.password)
                 .then(() => {
