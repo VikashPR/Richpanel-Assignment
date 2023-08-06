@@ -9,7 +9,6 @@
             </template>
         </v-snackbar>
         <div class="card">
-
             <div class="left">
                 <h1>Complete Payment</h1>
                 <span>Enter your credit or debit card detail below</span>
@@ -61,6 +60,9 @@ export default {
   },
     data() {
         this.publishableKey = "pk_test_51NbNxWSCvAqhlDJnKzdvJcLSYHoVWygkKPn0aVTJOGhc8yMiD5I7AJqA54p1PN7PzGsK3QtiDIu2pW2vOAHALsuq00Awlo9qcY";
+        this.successURL = 'http://localhost:8080/user-plan';
+        this.cancelURL = 'https://localhost:8080/';
+        this.stripe = null;
         return {
             token: null,
             selectedPlan: null,
@@ -69,7 +71,7 @@ export default {
             planDetails: null,
             snackbar: false,
             uId: null,
-            text: 'Payment successful! Please wait ...',
+            text: 'Payment initiated successfully, please wait...',
             timeout: 2000,
             yearly: [],
             monthly: [],
@@ -88,13 +90,17 @@ export default {
                 console.log(error)
             })
     },
-
+    mounted() {
+        this.stripe = window.Stripe(this.publishableKey);
+    },
     methods: {
         submit() {
             this.loading = true;
             this.$refs.elementRef.submit();
 
             this.planDetails = this.planDuration == 'monthly' ? this.monthly.find(plan => plan.name.toLowerCase() == this.selectedPlan) : this.yearly.find(plan => plan.name.toLowerCase() == this.selectedPlan);
+            console.log(this.planDetails.id);
+
             let planStatus = "active"
             let subscriptionStartOn = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
             let subscriptionEndOn = this.planDuration == 'monthly' ? new Date(new Date().setDate(new Date().getDate() + 30)).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) : new Date(new Date().setDate(new Date().getDate() + 365)).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
@@ -109,20 +115,25 @@ export default {
             UpdateOrderHistory(this.uId, this.planDetails)
 
             setTimeout(() => {
-                this.$router.push({ name: 'user-plan' });
+                this.stripe.redirectToCheckout({
+                    lineItems: [{ price: this.planDetails.id, quantity: 1 }],
+                    mode: 'subscription',
+                    successUrl: this.successURL,
+                    cancelUrl: this.cancelURL,
+                });
                 this.loading = false;
             }, 3000);
+
         },
         tokenCreated(token) {
             console.log(token);
 
-            let price = this.planDuration == 'monthly' ? this.monthly.find(plan => plan.name.toLowerCase() == this.selectedPlan).price : this.yearly.find(plan => plan.name.toLowerCase() == this.selectedPlan).price;
             this.token = token;
             let source = this.token;
-
+            let amount = this.planDuration == 'monthly' ? this.monthly.find(plan => plan.name.toLowerCase() == this.selectedPlan).price : this.yearly.find(plan => plan.name.toLowerCase() == this.selectedPlan).price;
             let stripeObj = {
                 source,
-                price,
+                amount,
                 plan: this.selectedPlan,
                 planDuration: this.planDuration,
             }
