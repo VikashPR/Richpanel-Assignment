@@ -60,8 +60,12 @@ export default {
   },
     data() {
         this.publishableKey = "pk_test_51NbNxWSCvAqhlDJnKzdvJcLSYHoVWygkKPn0aVTJOGhc8yMiD5I7AJqA54p1PN7PzGsK3QtiDIu2pW2vOAHALsuq00Awlo9qcY";
+        // this.successURL = 'http://localhost:8080/user-plan';
+        // this.cancelURL = 'https://localhost:8080/';
+
         this.successURL = 'https://richpanel-assignment-de3f0.web.app/user-plan';
-        this.cancelURL = 'https://richpanel-assignment-de3f0.web.app/';
+        this.cancelURL = 'https://richpanel-assignment-de3f0.web.app';
+        
         this.stripe = null;
         return {
             token: null,
@@ -99,7 +103,6 @@ export default {
             this.$refs.elementRef.submit();
 
             this.planDetails = this.planDuration == 'monthly' ? this.monthly.find(plan => plan.name.toLowerCase() == this.selectedPlan) : this.yearly.find(plan => plan.name.toLowerCase() == this.selectedPlan);
-            console.log(this.planDetails.id);
 
             let planStatus = "active"
             let subscriptionStartOn = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
@@ -114,9 +117,13 @@ export default {
 
             UpdateOrderHistory(this.uId, this.planDetails)
 
+
             setTimeout(() => {
                 this.stripe.redirectToCheckout({
-                    lineItems: [{ price: this.planDetails.id, quantity: 1 }],
+                    lineItems: [{
+                        price: this.planDetails.string ? this.planDetails.string : this.planDetails.id
+                        , quantity: 1
+                    }],
                     mode: 'subscription',
                     successUrl: this.successURL,
                     cancelUrl: this.cancelURL,
