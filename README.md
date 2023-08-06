@@ -1,10 +1,32 @@
-# richpanel-assignment
+# RichPanel Subscription Service
 
-## Project setup
+### Project Description
+This project is a simple subscription service that allows users to subscribe to a service and view their subscription details. The project is built using Vue.js, uses Firebase as the backend and powered by stripe. The project is hosted on Firebase and can be accessed at https://richpanel-subscription.web.app/
+
+### Tech Stack
+
+![Stripe](https://img.shields.io/badge/Stripe-626CD9?style=for-the-badge&logo=Stripe&logoColor=white)
+![Vue.js](https://img.shields.io/badge/Vue.js-4FC08D?style=for-the-badge&logo=Vue.js&logoColor=white)
+![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=Firebase&logoColor=white)
+![Vuetify](https://img.shields.io/badge/Vuetify-1867C0?style=for-the-badge&logo=Vuetify&logoColor=white)
+
+
+### CI/CD Pipeline
+
+![GitHub Actions](https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=GitHub-Actions&logoColor=white)
+![Firebase](https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=Firebase&logoColor=white)
+
+### Project Requirements
+- Node.js
+- NPM
+- Firebase CLI
+- Vue CLI
+
+
+### Project setup
 ```
 npm install
 ```
-
 ### Compiles and hot-reloads for development
 ```
 npm run serve
@@ -15,10 +37,19 @@ npm run serve
 npm run build
 ```
 
-### Lints and fixes files
+### Understanding Routing
+
 ```
-npm run lint
+    path:"/"
+        name:"Home"
+    path:"login"
+        name:"Login"
+    path:"register"
+        name:"register"
+    path:"/payment/:planDuration/:selectedPlan"
+        name:"Payment"
+    path:"user-plan"
+        name:"UserPlan"
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+
