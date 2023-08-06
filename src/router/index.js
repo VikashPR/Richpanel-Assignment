@@ -1,73 +1,97 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import Vue from "vue";
+import VueRouter from "vue-router";
+import HomeView from "../views/HomeView.vue";
 import { auth } from "../firebase";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/",
-    name: "home",
-    component: HomeView,
-    meta: {
-      authRequired: true,
-    },
-  },
-  {
     path: "/register",
     name: "register",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
+    meta: {
+      requiresGuest: true,
+    },
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/Auth/RegisterView.vue"),
   },
   {
     path: "/login",
     name: "login",
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
+    meta: {
+      requiresGuest: true,
+    },
     component: () =>
       import(/* webpackChunkName: "about" */ "../views/Auth/LoginView.vue"),
   },
   {
+    path: "/",
+    name: "home",
+    component: HomeView,
+    meta: {
+      requiresAuth: true,
+    },
+  },
+  {
     path: "/payment/:planDuration/:selectedPlan",
     name: "payment",
-    component: () => import("../views/PaymentView.vue"),
     meta: {
-      authRequired: true,
+      requiresAuth: true,
     },
+    component: () => import("../views/PaymentView.vue"),
   },
   {
     path: "/user-plan",
     name: "user-plan",
-    component: () => import("../views/UserPlanView.vue"),
     meta: {
-      authRequired: true,
+      requiresAuth: true,
     },
+    component: () => import("../views/UserPlanView.vue"),
   },
 ];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
+
 
 router.beforeEach((to, from, next) => {
-  const authRequired = to.matched.some((route) => route.meta.authRequired);
-  const isAuthenticated = auth.currentUser;
-  if (!authRequired && !isAuthenticated) {
-    next();
-  } else if (authRequired && !isAuthenticated) {
-    next("/login");
-  } else if (authRequired && isAuthenticated) {
-    next();
+  // Check for requiredAuth guard
+  if (to.matched.some((record) => record.meta.requiresAuth)) {
+    // Check if NOT logged in
+    if (!auth.currentUser) {
+      // Go to login
+      next({
+        path: "/login",
+        query: {
+          redirect: to.fullPath,
+        },
+      });
+    } else {
+      // Proceed to route
+      next();
+    }
+  } else if (to.matched.some((record) => record.meta.requiresGuest)) {
+    // Check if logged in
+    if (auth.currentUser) {
+      // Go to login
+      next({
+        path: "/",
+        query: {
+          redirect: to.fullPath,
+        },
+      });
+    } else {
+      // Proceed to route
+      next();
+    }
   } else {
-    next("/");
+    // Proceed to route
+    next();
   }
 });
 
-export default router
+
+export default router;
