@@ -1,19 +1,31 @@
-/**
- * Import function triggers from their respective submodules:
- *
- * const {onCall} = require("firebase-functions/v2/https");
- * const {onDocumentWritten} = require("firebase-functions/v2/firestore");
- *
- * See a full list of supported triggers at https://firebase.google.com/docs/functions
- */
+// Test firebase function
 
-const {onRequest} = require("firebase-functions/v2/https");
-const logger = require("firebase-functions/logger");
+const functions = require("firebase-functions");
 
-// Create and deploy your first functions
-// https://firebase.google.com/docs/functions/get-started
+exports.helloWorld = functions.https.onRequest((request, response) => {
+  response.send("Hello from Firebase!");
+});
 
-// exports.helloWorld = onRequest((request, response) => {
-//   logger.info("Hello logs!", {structuredData: true});
-//   response.send("Hello from Firebase!");
-// });
+const stripe = require("stripe")(
+  "sk_test_51NbNxWSCvAqhlDJn8zY5tIk8MOuKR8hB9SQoEIu6sidnQr3qHTLjOrnJYIWi6obApW1ANCTrnLBB0EhN7KuMetsh00N8Pz19wv"
+);
+
+exports.createStripeCharge = functions.firestore
+  .document("charges/{uId}")
+  .onCreate(async (snap, context) => {
+    const data = snap.data();
+    try {
+      const charge = {
+        amount: data.price,
+        currency: "INR",
+        source: data.source.id,
+      };
+      const idempotencyKey = context.params.uId;
+
+      const res = await stripe.charges.create(charge, { idempotencyKey });
+
+      await snap.ref.set({ charge }, { merge: true });
+    } catch (error) {
+      await snap.ref.set({ error: userFacingMessage(error) }, { merge: true });
+    }
+  });
