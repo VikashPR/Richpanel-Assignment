@@ -19,7 +19,7 @@
             <v-checkbox v-model="RememberMe" label="Remember Me"></v-checkbox>
 
             <v-btn :loading="loading"
-             :disabled="disabled" color="#26528C"  class="submit-btn white--text" @click="register">
+             :disabled="loading" color="#26528C"  class="submit-btn white--text" @click="register">
                 Sign Up
             </v-btn>
 
@@ -54,17 +54,13 @@ export default {
         }
     },
     computed: {
-        disabled() {
-            if (this.email && this.password && this.name) {
-                return false
-            } else {
-                return true
-            }
-        }
     },
     methods: {
         async register() {
             try {
+                if (this.name == '' || this.email == '' || this.password == '') {
+                    return
+                }
                 this.loading = true
                 await auth.createUserWithEmailAndPassword(this.email, this.password)
                 await db.collection('users').doc(auth.currentUser.uid).set({
