@@ -39,17 +39,17 @@ npm run build
 
 ### Understanding Routing
 
-```
-    path:"/"
-        name:"Home"
-    path:"login"
-        name:"Login"
-    path:"register"
-        name:"register"
-    path:"/payment/:planDuration/:selectedPlan"
-        name:"Payment"
-    path:"user-plan"
-        name:"UserPlan"
+``` javascript
+path:"/"
+    name:"Home"
+path:"login"
+    name:"Login"
+path:"register"
+    name:"register"
+path:"/payment/:planDuration/:selectedPlan"
+    name:"Payment"
+path:"user-plan"
+    name:"UserPlan"
 ```
 
 
