@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div  class="d-flex align-center justify-center flex-column">
         <h1>Logout</h1>
         <p>Are you sure you want to logout?</p>
         <v-btn color="primary" @click="logout">Logout</v-btn>
@@ -22,6 +22,11 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
+
+div{
+    height: 100vh;
+    width: 100vw;
+}
 
 </style>
