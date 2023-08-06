@@ -13,7 +13,7 @@ const routes = [
       requiresGuest: true,
     },
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Auth/RegisterView.vue"),
+      import( "../views/Auth/RegisterView.vue"),
   },
   {
     path: "/login",
@@ -22,7 +22,16 @@ const routes = [
       requiresGuest: true,
     },
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Auth/LoginView.vue"),
+      import( "../views/Auth/LoginView.vue"),
+  },
+  {
+    path: '/logout',
+    name: 'logout',
+    meta: {
+      requiresAuth: true,
+    },
+    component: () =>
+      import( "../views/Auth/LogoutView.vue"),
   },
   {
     path: "/",
