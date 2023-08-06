@@ -1,0 +1,71 @@
+[debug] [2023-08-06T09:14:20.458Z] ----------------------------------------------------------------------
+[debug] [2023-08-06T09:14:20.461Z] Command:       /Users/vikashpr/.nvm/versions/node/v18.16.0/bin/node /Users/vikashpr/.nvm/versions/node/v18.16.0/bin/firebase deploy --only hosting
+[debug] [2023-08-06T09:14:20.461Z] CLI Version:   12.4.7
+[debug] [2023-08-06T09:14:20.461Z] Platform:      darwin
+[debug] [2023-08-06T09:14:20.462Z] Node Version:  v18.16.0
+[debug] [2023-08-06T09:14:20.464Z] Time:          Sun Aug 06 2023 14:44:20 GMT+0530 (India Standard Time)
+[debug] [2023-08-06T09:14:20.465Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-08-06T09:14:20.579Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-08-06T09:14:20.580Z] > authorizing via signed-in user (vikashrajendran2806@gmail.com)
+[debug] [2023-08-06T09:14:20.580Z] [iam] checking project richpanel-assignment-de3f0 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2023-08-06T09:14:20.583Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/richpanel-assignment-de3f0:testIamPermissions [none]
+[debug] [2023-08-06T09:14:20.583Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/richpanel-assignment-de3f0:testIamPermissions x-goog-quota-user=projects/richpanel-assignment-de3f0
+[debug] [2023-08-06T09:14:20.583Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/richpanel-assignment-de3f0:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-08-06T09:14:21.932Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/richpanel-assignment-de3f0:testIamPermissions 200
+[debug] [2023-08-06T09:14:21.932Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/richpanel-assignment-de3f0:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-08-06T09:14:21.934Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/richpanel-assignment-de3f0 [none]
+[debug] [2023-08-06T09:14:22.332Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/richpanel-assignment-de3f0 200
+[debug] [2023-08-06T09:14:22.333Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/richpanel-assignment-de3f0 {"projectId":"richpanel-assignment-de3f0","projectNumber":"983638600847","displayName":"RichPanel-Assignment","name":"projects/richpanel-assignment-de3f0","resources":{"hostingSite":"richpanel-assignment-de3f0"},"state":"ACTIVE","etag":"1_8e0e55d1-8fc5-4e1f-ad01-6e23b86d6fa3"}
+[info] 
+[info] === Deploying to 'richpanel-assignment-de3f0'...
+[info] 
+[info] i  deploying hosting 
+[debug] [2023-08-06T09:14:22.343Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/richpanel-assignment-de3f0/versions [none]
+[debug] [2023-08-06T09:14:22.343Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/richpanel-assignment-de3f0/versions {"status":"CREATED","labels":{"deployment-tool":"cli-firebase"}}
+[debug] [2023-08-06T09:14:23.355Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/richpanel-assignment-de3f0/versions 200
+[debug] [2023-08-06T09:14:23.355Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/richpanel-assignment-de3f0/versions {"name":"projects/983638600847/sites/richpanel-assignment-de3f0/versions/226dc498c045ea52","status":"CREATED","config":{},"labels":{"deployment-tool":"cli-firebase"}}
+[info] i  hosting[richpanel-assignment-de3f0]: beginning deploy... 
+[info] i  hosting[richpanel-assignment-de3f0]: found 29 files in dist 
+[debug] [2023-08-06T09:14:23.381Z] [hosting] uploading with 200 concurrency
+[debug] [2023-08-06T09:14:23.397Z] [hosting] hash cache [ZGlzdA] stored for 29 files
+[debug] [2023-08-06T09:14:23.397Z] [hosting][hash queue][FINAL] {"max":2,"min":0,"avg":0,"active":0,"complete":29,"success":29,"errored":0,"retried":0,"total":29,"elapsed":10}
+[debug] [2023-08-06T09:14:23.398Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/983638600847/sites/richpanel-assignment-de3f0/versions/226dc498c045ea52:populateFiles [none]
+[debug] [2023-08-06T09:14:23.398Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/983638600847/sites/richpanel-assignment-de3f0/versions/226dc498c045ea52:populateFiles {"files":{"/404.html":"05cbc6f94d7a69ce2e29646eab13be2c884e61ba93e3094df5028866876d18b3","/favicon.ico":"f14c3024c0060eee086f8bc81eb004c1a8bff0cfb74ecd17eae3b20a302c4aee","/index.html":"9274e126ebe8881b8a891218bdd8b6a94625a50d4f94e69883ab162acc4f10fc","/css/114.858a3a1a.css":"6d796f7cec2fbf9e03b01d659f0a101efe30f0777c346538fd47338e0572d3b2","/css/32.59b4900a.css":"e3844861fd4f322dc3005de53d0164724e02d58595baaf42dff67487fa9b9209","/css/558.57760e5e.css":"448c90fa07cc733da319e6557a75cf8a66f4b90f046dfe4bb155d68e59c6c1ab","/css/683.a6b0ef52.css":"ccc0e2ff59e9cf9931316827fd59962dcb187662f2e2a0e53167a35e60490874","/css/698.cec83ba9.css":"fd4d6a9db9139979a3a3995b04e8540a41e89e830e45e11ec8cf870defdedd28","/css/989.a3f53ec5.css":"5133744288b79c4df3a20372bc6d76a9e35ed0f7e682029571ea38092747e5f0","/css/app.6cbb01dd.css":"73ab141340b749172443eb850296ee9853e467f3bdab4c210d94f672dc8f49b0","/css/chunk-vendors.32444689.css":"7ebaf873880229108adba563f4c43d21afb2656c87acd143015e92973bdab2e3","/js/114.f1d263a3.js":"eb393bc948253194e68be16ec592b252a54405aaf892f87a6c2876975081bad1","/js/114.f1d263a3.js.map":"a64dffc88c67db4f4e3a8e4272f0686f419c93aa5ace612d7ba93be6bb9dbef1","/js/32.780f368d.js":"8072ff01fe85f58d0beb5858c4120cc9046276603e3b6df52c729b93af50c607","/js/32.780f368d.js.map":"a27b3c69d01b5e1de391aeaa0dacb52babd579071c93dcb5886fdf1a989316f8","/js/558.7412cb76.js":"d49402fc7735c6cf6085f2fd2f32eece1f6a3c4c67621b20552196014b5e0b67","/js/558.7412cb76.js.map":"b13bb345a4d0cfa09c9458694c4aa3ffe36c00218ff53ad7bf26b34b5181ad11","/js/65.6b9f6373.js":"e7485eea380a359e8870b65836875352236a7208093210799bc8134f441a407d","/js/65.6b9f6373.js.map":"1191d3f86bfe09600fe89eeaaba53ad42348b81d614ba76c8ef86fff57aeaaaf","/js/683.cdb0026e.js":"651e741b2af07dfadae5289e87ea90502fa735f64e48674f3fb9e51aa75c51c5","/js/683.cdb0026e.js.map":"4f5af489ee9625f13b6fad5bce5c8e91c6021f8250408d630067d05a2f3883e6","/js/698.0cf8ec9c.js":"f9eda2bee2025703063cb89a7910251a6ae01db2a6328e92c9bf7ff6d595a237","/js/698.0cf8ec9c.js.map":"15209252a697e30dd1bc1a4aed219f76dc4b8467893b221c723f76735361b893","/js/989.41fdc358.js":"0c368a5839561fad777b0ed2765f7cfac98d0e3ebe8b41ab9339029327006403","/js/989.41fdc358.js.map":"de94062f9459c69215a9eeeabd13427ddedb380683764622c919d62b25e106b5","/js/app.72368a58.js":"de5659d1919bcc89de189d1fc9142c17e04157ce5d6da37d38741a3a88e1210a","/js/app.72368a58.js.map":"c4b071685dfdd3e2af955e492837159e6a0a8e479870f8d06a04ae6d4f2d7b8b","/js/chunk-vendors.c4f79eef.js":"d6bff34adb00e3643cf1bea1136ed8453d4e7f28c447188a1cf4570d36295aa9","/js/chunk-vendors.c4f79eef.js.map":"af86d573b233d47d7e375edea0931f047cae98449527c3d4913ebeadd2aa3102"}}
+[debug] [2023-08-06T09:14:24.378Z] <<< [apiv2][status] POST https://firebasehosting.googleapis.com/v1beta1/projects/983638600847/sites/richpanel-assignment-de3f0/versions/226dc498c045ea52:populateFiles 200
+[debug] [2023-08-06T09:14:24.379Z] <<< [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/983638600847/sites/richpanel-assignment-de3f0/versions/226dc498c045ea52:populateFiles {"uploadUrl":"https://upload-firebasehosting.googleapis.com/upload/sites/richpanel-assignment-de3f0/versions/226dc498c045ea52/files"}
+[debug] [2023-08-06T09:14:24.379Z] [hosting][populate queue][FINAL] {"max":989,"min":989,"avg":989,"active":0,"complete":1,"success":1,"errored":0,"retried":0,"total":1,"elapsed":989}
+[debug] [2023-08-06T09:14:24.379Z] [hosting] uploads queued: 0
+[debug] [2023-08-06T09:14:24.379Z] [hosting][upload queue][FINAL] {"max":0,"min":9999999999,"avg":0,"active":0,"complete":0,"success":0,"errored":0,"retried":0,"total":0,"elapsed":1691313264379}
+[info] ✔  hosting[richpanel-assignment-de3f0]: file upload complete 
+[debug] [2023-08-06T09:14:24.381Z] [hosting] deploy completed after 1022ms
+[debug] [2023-08-06T09:14:24.381Z] [
+  {
+    "config": {
+      "public": "dist",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "destination": "/index.html"
+        }
+      ],
+      "site": "richpanel-assignment-de3f0"
+    },
+    "version": "projects/983638600847/sites/richpanel-assignment-de3f0/versions/226dc498c045ea52"
+  }
+]
+[info] i  hosting[richpanel-assignment-de3f0]: finalizing version... 
+[debug] [2023-08-06T09:14:24.384Z] >>> [apiv2][query] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/richpanel-assignment-de3f0/versions/226dc498c045ea52 updateMask=status%2Cconfig
+[debug] [2023-08-06T09:14:24.384Z] >>> [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/richpanel-assignment-de3f0/versions/226dc498c045ea52 {"status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}]}}
+[debug] [2023-08-06T09:14:25.257Z] <<< [apiv2][status] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/richpanel-assignment-de3f0/versions/226dc498c045ea52 200
+[debug] [2023-08-06T09:14:25.257Z] <<< [apiv2][body] PATCH https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/richpanel-assignment-de3f0/versions/226dc498c045ea52 {"name":"projects/983638600847/sites/richpanel-assignment-de3f0/versions/226dc498c045ea52","status":"FINALIZED","config":{"rewrites":[{"glob":"**","path":"/index.html"}]},"labels":{"deployment-tool":"cli-firebase"},"createTime":"2023-08-06T09:14:21.587104Z","createUser":{"email":"vikashrajendran2806@gmail.com"},"finalizeTime":"2023-08-06T09:14:23.731638Z","finalizeUser":{"email":"vikashrajendran2806@gmail.com"}}
+[debug] [2023-08-06T09:14:25.257Z] [hosting] finalized version for richpanel-assignment-de3f0:[object Object]
+[info] ✔  hosting[richpanel-assignment-de3f0]: version finalized 
+[info] i  hosting[richpanel-assignment-de3f0]: releasing new version... 
+[debug] [2023-08-06T09:14:25.259Z] >>> [apiv2][query] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/richpanel-assignment-de3f0/channels/live/releases versionName=projects%2F983638600847%2Fsites%2Frichpanel-assignment-de3f0%2Fversions%2F226dc498c045ea52
+[debug] [2023-08-06T09:14:25.260Z] >>> [apiv2][body] POST https://firebasehosting.googleapis.com/v1beta1/projects/-/sites/richpanel-assignment-de3f0/channels/live/releases {}
