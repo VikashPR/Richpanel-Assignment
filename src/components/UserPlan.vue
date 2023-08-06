@@ -73,12 +73,18 @@ export default {
     methods: {
         cancelPlan() {
             // subscriptionCancelledOn format should be Aug 20th, 2023
-            let subscriptionCancelledOn = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-            this.userPlan.subscriptionCancelledOn = subscriptionCancelledOn
-            this.userPlan.planStatus = 'cancelled'
-            db.collection('users').doc(auth.currentUser.uid).update({
-                userPlan: this.userPlan
-            })
+            // Alert ok and cancel
+            if (window.confirm('Are you sure you want to cancel your subscription? This action cannot be undone.') ) {
+                let subscriptionCancelledOn = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                this.userPlan.subscriptionCancelledOn = subscriptionCancelledOn
+                this.userPlan.planStatus = 'cancelled'
+                db.collection('users').doc(auth.currentUser.uid).update({
+                    userPlan: this.userPlan
+                })
+            }
+            else {
+                // Do nothing!
+            }
         }
     }
 }
