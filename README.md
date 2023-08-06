@@ -12,7 +12,9 @@ This project is a simple subscription service that allows users to subscribe to 
 
 
 ### Live Demo
-https://github.com/VikashPR/Richpanel-Assignment/assets/69889418/78929806-33c0-4c7e-b96e-07c6a0b5db86
+
+https://github.com/VikashPR/Richpanel-Assignment/assets/69889418/aa447e86-ef08-4160-9066-fa4cfb18da60
+
 
 ### CI/CD Pipeline
 
